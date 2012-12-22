@@ -8,9 +8,10 @@
 		});
 	},
 	toggleDialog: function () {
-		if (this.get('controller.isOpen'))
+		if (this.get('controller.isOpen')) {
 			this.$().modal('show');
-		else
+			this.$().find('input[type="text"]').first().focus();
+		} else
 			this.$().modal('hide');
 	}.observes('controller.isOpen')
 })
