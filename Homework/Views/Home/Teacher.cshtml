@@ -1,0 +1,59 @@
+﻿@model Homework.Models.Teacher
+@{
+    ViewBag.Title = "Teacher";
+}
+
+@section javascript
+{
+    <script src="~/js/app/app.js"></script>
+
+    <script src="~/js/app/store/store.js"></script>
+
+    @Scripts.Render("~/bundles/models")
+    @Scripts.Render("~/bundles/controllers")
+    @Scripts.Render("~/bundles/views")
+    
+    <script src="~/js/app/routes/router.js"></script>
+}
+
+<script type="application/json" id="app-metadata">
+    @Html.ToJson(Model)
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="application">
+    <header class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand">Homework</a>
+                <ul class="nav">
+                </ul>
+                <ul class="nav pull-right">
+                    <li>
+                        <a>Welcome, {{App.router.teacherController.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        {{outlet}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="teacher">
+    {{outlet courses}}
+    {{outlet details}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="courses">
+    <ul>
+    {{#each content}}
+        <li><a {{action displayCourse this href=true}}>{{period}} - {{subject}}</a></li>
+    {{/each}}
+    </ul>
+</script>
+
+<script type="text/x-handlebars" data-template-name="course-details">
+    {{subject}}
+</script>
