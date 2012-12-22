@@ -113,6 +113,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\AssignmentsController.cs" />
     <Compile Include="Api\CoursesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -120,6 +121,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\ToJsonHtmlHelper.cs" />
+    <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,31 +134,75 @@
     <Content Include="css\bootstrap-responsive.min.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\Bootstrap\editor.png" />
+    <Content Include="css\Bootstrap\imagebrowser.png" />
+    <Content Include="css\Bootstrap\loading-image.gif" />
+    <Content Include="css\Bootstrap\loading.gif" />
+    <Content Include="css\Bootstrap\slider-h.gif" />
+    <Content Include="css\Bootstrap\slider-v.gif" />
+    <Content Include="css\Bootstrap\sprite.png" />
+    <Content Include="css\images\back.png" />
     <Content Include="css\images\glyphicons-halflings-white.png" />
     <Content Include="css\images\glyphicons-halflings.png" />
+    <Content Include="css\kendo.bootstrap.min.css" />
+    <Content Include="css\kendo.common.min.css" />
     <Content Include="css\styles.css">
       <DependentUpon>styles.less</DependentUpon>
     </Content>
     <Content Include="css\styles.min.css">
       <DependentUpon>styles.less</DependentUpon>
     </Content>
+    <Content Include="css\textures\brushed-metal.png" />
+    <Content Include="css\textures\dots1.png" />
+    <Content Include="css\textures\dots10.png" />
+    <Content Include="css\textures\dots11.png" />
+    <Content Include="css\textures\dots12.png" />
+    <Content Include="css\textures\dots13.png" />
+    <Content Include="css\textures\dots2.png" />
+    <Content Include="css\textures\dots3.png" />
+    <Content Include="css\textures\dots4.png" />
+    <Content Include="css\textures\dots5.png" />
+    <Content Include="css\textures\dots6.png" />
+    <Content Include="css\textures\dots7.png" />
+    <Content Include="css\textures\dots8.png" />
+    <Content Include="css\textures\dots9.png" />
+    <Content Include="css\textures\glass-lighter.png" />
+    <Content Include="css\textures\glass.png" />
+    <Content Include="css\textures\highlight.png" />
+    <Content Include="css\textures\leather1.png" />
+    <Content Include="css\textures\leather2.png" />
+    <Content Include="css\textures\noise.png" />
+    <Content Include="css\textures\stripe1.png" />
+    <Content Include="css\textures\stripe2.png" />
+    <Content Include="css\textures\stripe3.png" />
+    <Content Include="css\textures\stripe4.png" />
+    <Content Include="css\textures\stripe5.png" />
+    <Content Include="css\textures\stripe6.png" />
     <Content Include="Global.asax" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <Content Include="css\styles.less" />
+    <Content Include="css\images\KendoUI.ttf" />
+    <Content Include="css\images\KendoUI.woff" />
     <None Include="js\vendor\jquery-1.8.3.intellisense.js" />
     <Content Include="js\app\app.js" />
     <Content Include="js\app\controllers\application-controller.js" />
+    <Content Include="js\app\controllers\assignment-dialog-controller.js" />
+    <Content Include="js\app\controllers\assignments-controller.js" />
     <Content Include="js\app\controllers\courses-controller.js" />
-    <Content Include="js\app\controllers\selected-course-controller.js" />
+    <Content Include="js\app\controllers\course-details-controller.js" />
     <Content Include="js\app\controllers\teacher-controller.js" />
+    <Content Include="js\app\models\assignment.js" />
     <Content Include="js\app\models\course.js" />
     <Content Include="js\app\models\teacher.js" />
     <Content Include="js\app\routes\router.js" />
     <Content Include="js\app\store\store.js" />
     <Content Include="js\app\views\application-view.js" />
+    <Content Include="js\app\views\assignment-dialog-view.js" />
+    <Content Include="js\app\views\assignments-view.js" />
     <Content Include="js\app\views\course-details-view.js" />
     <Content Include="js\app\views\courses-view.js" />
+    <Content Include="js\app\views\date-field.js" />
     <Content Include="js\app\views\teacher-view.js" />
     <Content Include="js\vendor\bootstrap.js" />
     <Content Include="js\vendor\bootstrap.min.js" />
@@ -171,6 +217,7 @@
     <Content Include="js\vendor\handlebars.runtime.js" />
     <Content Include="js\vendor\jquery-1.8.3.js" />
     <Content Include="js\vendor\jquery-1.8.3.min.js" />
+    <Content Include="js\vendor\kendo.custom.min.js" />
     <Content Include="js\vendor\modernizr-2.6.2.js" />
     <Content Include="js\vendor\modernizr-2.6.2.min.js">
       <DependentUpon>modernizr-2.6.2.js</DependentUpon>
