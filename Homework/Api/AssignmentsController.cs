@@ -26,12 +26,12 @@ namespace Homework.Api
 			};
 		}
 
-		public object Post(Assignment assignment) {
-			assignment.Id = 4;
-			return new AssignmentResponse {Assignment = assignment};
+		public object Post(AssignmentsRequest request) {
+			request.Assignment.Id = 4;
+			return new AssignmentResponse { Assignment = new AssignmentResponseItem(request.Assignment) };
 		}
 
-		public object Put(Assignment assignment) {
+		public object Put(AssignmentsRequest request) {
 			return new HttpResponseMessage(HttpStatusCode.OK);
 		}
     }
@@ -41,6 +41,8 @@ namespace Homework.Api
 		public int Id { get; set; }
 
 		public int CourseId { get; set; }
+
+		public Assignment Assignment { get; set; }
 	}
 
 	public class AssignmentsResponse
@@ -50,11 +52,19 @@ namespace Homework.Api
 
 	public class AssignmentResponse
 	{
-		public Assignment Assignment { get; set; }
+		public AssignmentResponseItem Assignment { get; set; }
 	}
 
 	public class AssignmentResponseItem
 	{
+		public AssignmentResponseItem() {}
+
+		public AssignmentResponseItem(Assignment assignment) {
+			Id = assignment.Id;
+			Title = assignment.Title;
+			DueDate = assignment.DueDate.ToShortDateString();
+		}
+
 		public int Id { get; set; }
 
 		public string Title { get; set; }
