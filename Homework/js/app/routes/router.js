@@ -5,13 +5,21 @@
 
 	displayCourse: Em.Route.transitionTo('root.index.course'),
 	
-	addAssignmentDialog: function (router, context) {
+	addAssignmentDialog: function (router, event) {
 		var assignmentDialogController = router.get('assignmentDialogController');
 		assignmentDialogController.set('content', App.Assignment.createRecord({ title: '' }));
+		assignmentDialogController.set('dialogTitle', 'Create Assignment');
 		assignmentDialogController.set('isOpen', true);
 	},
 	
-	saveAssignment: function(router, context) {
+	editAssignmentDialog: function(router, event) {
+		var assignmentDialogController = router.get('assignmentDialogController');
+		assignmentDialogController.set('content', event.context);
+		assignmentDialogController.set('dialogTitle', 'Edit Assignment');
+		assignmentDialogController.set('isOpen', true);
+	},
+	
+	saveAssignment: function(router, event) {
 		var assignmentDialogController = router.get('assignmentDialogController');
 		assignmentDialogController.set('isOpen', false);
 		assignmentDialogController.get('content').on('didCreate', function() {
