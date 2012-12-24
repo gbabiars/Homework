@@ -57,7 +57,15 @@ namespace Homework.Api
 			}
 		}
 
-		public object Put(AssignmentsRequest request) {
+		public object Put(int id, AssignmentsRequest request) {
+			using (var redis = new RedisClient("127.0.0.1"))
+			{
+				var assignmentsClient = redis.As<Assignment>();
+				var assignment = assignmentsClient.GetById(id);
+				assignment.Title = request.Assignment.Title;
+				assignment.DueDate = request.Assignment.DueDate;
+				assignmentsClient.Store(assignment);
+			}
 			return new HttpResponseMessage(HttpStatusCode.OK);
 		}
     }
