@@ -4,13 +4,14 @@ using System.Linq;
 using System.Web;
 using Homework.Models;
 using ServiceStack.Redis;
+using System.Configuration;
 
 namespace Homework
 {
 	public static class RedisConfig
 	{
 		public static void Init() {
-			using (var redis = new RedisClient("127.0.0.1"))
+			using (var redis = new RedisClient(ConfigurationManager.AppSettings["REDISTOGO_URL"]))
 			{
 				redis.FlushAll();
 
