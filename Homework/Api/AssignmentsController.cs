@@ -6,13 +6,16 @@ using System.Net.Http;
 using System.Web.Http;
 using Homework.Models;
 using ServiceStack.Redis;
+using System.Configuration;
 
 namespace Homework.Api
 {
     public class AssignmentsController : ApiController
     {
+	    private readonly string connectionString = ConfigurationManager.AppSettings["REDISTOGO_URL"];
+
 		public object Get([FromUri] AssignmentsRequest request) {
-			using (var redis = new RedisClient("127.0.0.1"))
+			using (var redis = new RedisClient(connectionString))
 			{
 				if (request.Id != 0)
 				{
@@ -36,7 +39,7 @@ namespace Homework.Api
 		}
 
 		public object Post(AssignmentsRequest request) {
-			using (var redis = new RedisClient("127.0.0.1"))
+			using (var redis = new RedisClient(connectionString))
 			{
 				var assignmentsClient = redis.As<Assignment>();
 				var coursesClient = redis.As<Course>();
@@ -58,7 +61,7 @@ namespace Homework.Api
 		}
 
 		public object Put(int id, AssignmentsRequest request) {
-			using (var redis = new RedisClient("127.0.0.1"))
+			using (var redis = new RedisClient(connectionString))
 			{
 				var assignmentsClient = redis.As<Assignment>();
 				var assignment = assignmentsClient.GetById(id);

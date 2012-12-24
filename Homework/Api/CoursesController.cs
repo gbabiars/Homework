@@ -6,13 +6,16 @@ using System.Net.Http;
 using System.Web.Http;
 using Homework.Models;
 using ServiceStack.Redis;
+using System.Configuration;
 
 namespace Homework.Api
 {
     public class CoursesController : ApiController
     {
+		private readonly string connectionString = ConfigurationManager.AppSettings["REDISTOGO_URL"];
+
 		public object Get([FromUri] CoursesRequest request) {
-			using (var redis = new RedisClient("127.0.0.1"))
+			using (var redis = new RedisClient(connectionString))
 			{
 				var coursesStore = redis.As<Course>();
 				if (request.Id != 0)
