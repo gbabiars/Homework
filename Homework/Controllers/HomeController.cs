@@ -1,4 +1,5 @@
 ﻿using Homework.Models;
+using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,10 @@ namespace Homework.Controllers
         }
 
 		public ViewResult Teacher() {
-			var teacher = new Teacher {
-				Id = 1,
-				Name = "Jane Doe"
-			};
+			Teacher teacher;
+			using (var redis = new RedisClient("127.0.0.1")) {
+				teacher = redis.As<Teacher>().GetAll().FirstOrDefault();
+			}
 			return View(teacher);
 		}
     }

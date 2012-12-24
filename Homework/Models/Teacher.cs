@@ -7,8 +7,13 @@ namespace Homework.Models
 {
 	public class Teacher
 	{
+		public Teacher() {
+			CourseIds = new int[0];
+		}
 		public int Id { get; set; }
 
-		public string Name { get; set; }		
+		public string Name { get; set; }
+
+		public int[] CourseIds { get; set; }
 	}
 }

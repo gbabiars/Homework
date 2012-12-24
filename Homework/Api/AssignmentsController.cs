@@ -5,30 +5,56 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Homework.Models;
+using ServiceStack.Redis;
 
 namespace Homework.Api
 {
     public class AssignmentsController : ApiController
     {
-	    private IList<Assignment> assignments = new List<Assignment> {
-		    new Assignment { Id = 1, Title = "Math Ch 1, 1-29 Odd", DueDate = new DateTime(2012, 12, 27) },
-			new Assignment { Id = 2, Title = "Math Ch 2, 1-21", DueDate = new DateTime(2012, 12, 28) },
-			new Assignment { Id = 3, Title = "Math Ch 2, 25-28, 29-27 Odd", DueDate = new DateTime(2012, 12, 19) }
-	    };
-
 		public object Get([FromUri] AssignmentsRequest request) {
-			return new AssignmentsResponse {
-				Assignments = assignments.Select(x => new AssignmentResponseItem {
-					Id = x.Id,
-					Title = x.Title,
-					DueDate = x.DueDate.ToShortDateString()
-				}).ToList()
-			};
+			using (var redis = new RedisClient("127.0.0.1"))
+			{
+				if (request.Id != 0)
+				{
+					var assignment = redis.As<Assignment>().GetById(request.Id);
+					return new AssignmentResponse {
+						Assignment = new AssignmentResponseItem(assignment)
+					};
+				}
+				var course = redis.As<Course>().GetById(request.CourseId);
+				var assignments = redis.As<Assignment>().GetByIds(course.AssignmentIds)
+					.OrderBy(x => x.DueDate).ToList();
+				return new AssignmentsResponse {
+					Assignments = assignments.Select(x => new AssignmentResponseItem {
+						Id = x.Id,
+						Title = x.Title,
+						DueDate = x.DueDate.ToShortDateString(),
+						CourseId = x.CourseId
+					}).ToList()
+				};
+			}
 		}
 
 		public object Post(AssignmentsRequest request) {
-			request.Assignment.Id = 4;
-			return new AssignmentResponse { Assignment = new AssignmentResponseItem(request.Assignment) };
+			using (var redis = new RedisClient("127.0.0.1"))
+			{
+				var assignmentsClient = redis.As<Assignment>();
+				var coursesClient = redis.As<Course>();
+
+				var assignment = request.Assignment;
+				assignment.Id = assignmentsClient.GetAll().OrderBy(x => x.Id).Last().Id + 1;
+
+				var course = redis.As<Course>().GetById(assignment.CourseId);
+				var assignmentIds = course.AssignmentIds.ToList();
+				assignmentIds.Add(assignment.Id);
+				course.AssignmentIds = assignmentIds.ToArray();
+				coursesClient.Store(course);
+
+				assignmentsClient.GetNextSequence();
+				assignmentsClient.Store(assignment);
+
+				return new AssignmentResponse { Assignment = new AssignmentResponseItem(assignment) };
+			}
 		}
 
 		public object Put(AssignmentsRequest request) {
@@ -63,6 +89,7 @@ namespace Homework.Api
 			Id = assignment.Id;
 			Title = assignment.Title;
 			DueDate = assignment.DueDate.ToShortDateString();
+			CourseId = assignment.CourseId;
 		}
 
 		public int Id { get; set; }
@@ -70,5 +97,7 @@ namespace Homework.Api
 		public string Title { get; set; }
 
 		public string DueDate { get; set; }
+
+		public int CourseId { get; set; }
 	}
 }

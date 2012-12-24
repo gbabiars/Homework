@@ -5,26 +5,27 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Homework.Models;
+using ServiceStack.Redis;
 
 namespace Homework.Api
 {
     public class CoursesController : ApiController
     {
-		private IList<Course> courses = new List<Course> {
-			new Course {Id = 1, Period = 1, Subject = "Math" },
-			new Course {Id = 2, Period = 2, Subject = "Math" },
-			new Course {Id = 3, Period = 3, Subject = "Math" },
-			new Course {Id = 4, Period = 4, Subject = "Science" },
-			new Course {Id = 5, Period = 5, Subject = "Science" },
-			new Course {Id = 6, Period = 6, Subject = "Math" },
-		};
-
 		public object Get([FromUri] CoursesRequest request) {
-			if (request.Id != 0)
-				return new CourseResponse {
-					Course = courses.FirstOrDefault(x => x.Id == request.Id)
+			using (var redis = new RedisClient("127.0.0.1"))
+			{
+				var coursesStore = redis.As<Course>();
+				if (request.Id != 0)
+					return new CourseResponse {
+						Course = coursesStore.GetById(request.Id)
+					};
+				var teacher = redis.As<Teacher>().GetById(request.TeacherId);
+				return new CoursesResponse {
+					Courses = coursesStore.GetAll()
+						.Where(x => teacher.CourseIds.Contains(x.Id))
+						.OrderBy(x => x.Period).ToList()
 				};
-			return new CoursesResponse { Courses = courses };
+			}
 		}
     }
 

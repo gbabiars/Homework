@@ -6,8 +6,9 @@
 	displayCourse: Em.Route.transitionTo('root.index.course'),
 	
 	addAssignmentDialog: function (router, event) {
+		var courseId = parseInt(router.get('courseDetailsController.id'));
 		var assignmentDialogController = router.get('assignmentDialogController');
-		assignmentDialogController.set('content', App.Assignment.createRecord({ title: '' }));
+		assignmentDialogController.set('content', App.Assignment.createRecord({ title: '', courseId: courseId }));
 		assignmentDialogController.set('dialogTitle', 'Create Assignment');
 		assignmentDialogController.set('isOpen', true);
 	},
