@@ -10,10 +10,8 @@ using System.Configuration;
 
 namespace Homework.Api
 {
-    public class AssignmentsController : ApiController
+    public class AssignmentsController : RedisApiControllerBase
     {
-	    private readonly string connectionString = ConfigurationManager.AppSettings["REDISTOGO_URL"];
-
 		public object Get([FromUri] AssignmentsRequest request) {
 			using (var redis = GetRedisClient())
 			{
@@ -28,12 +26,7 @@ namespace Homework.Api
 				var assignments = redis.As<Assignment>().GetByIds(course.AssignmentIds)
 					.OrderBy(x => x.DueDate).ToList();
 				return new AssignmentsResponse {
-					Assignments = assignments.Select(x => new AssignmentResponseItem {
-						Id = x.Id,
-						Title = x.Title,
-						DueDate = x.DueDate.ToShortDateString(),
-						CourseId = x.CourseId
-					}).ToList()
+					Assignments = assignments.Select(x => new AssignmentResponseItem(x)).ToList()
 				};
 			}
 		}
@@ -70,10 +63,6 @@ namespace Homework.Api
 				assignmentsClient.Store(assignment);
 			}
 			return new HttpResponseMessage(HttpStatusCode.OK);
-		}
-
-		private RedisClient GetRedisClient() {
-			return new RedisClient(new Uri(connectionString));
 		}
     }
 

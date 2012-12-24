@@ -52,8 +52,16 @@
 				route: '/course/:id',
 				connectOutlets: function (router, context) {
 					router.get('teacherController').connectOutlet('courseDetails', context);
-					router.get('courseDetailsController').connectOutlet('assignments',
-						App.store.findQuery(App.Assignment, { courseId: context.get('id') }));
+					router.get('courseDetailsController').connectOutlet({
+						outletName: 'assignments', 
+						name: 'assignments',
+						context: App.store.findQuery(App.Assignment, { courseId: context.get('id') })
+					});
+					router.get('courseDetailsController').connectOutlet({
+						outletName: 'students',
+						name: 'students',
+						context: App.store.findQuery(App.Student, { courseId: context.get('id') })
+					})
 				},
 				serialize: function (router, context) {
 					return { id: context.get('id') };

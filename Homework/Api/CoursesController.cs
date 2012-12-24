@@ -10,10 +10,8 @@ using System.Configuration;
 
 namespace Homework.Api
 {
-    public class CoursesController : ApiController
+    public class CoursesController : RedisApiControllerBase
     {
-		private readonly string connectionString = ConfigurationManager.AppSettings["REDISTOGO_URL"];
-
 		public object Get([FromUri] CoursesRequest request) {
 			using (var redis = GetRedisClient())
 			{
@@ -29,10 +27,6 @@ namespace Homework.Api
 						.OrderBy(x => x.Period).ToList()
 				};
 			}
-		}
-
-		private RedisClient GetRedisClient() {
-			return new RedisClient(new Uri(connectionString));
 		}
     }
 

@@ -4,6 +4,7 @@
 	{
 		public Course() {
 			AssignmentIds = new int[0];
+			StudentIds = new int[0];
 		}
 
 		public int Id { get; set; }
@@ -15,5 +16,7 @@
 		public int TeacherId { get; set; }
 
 		public int[] AssignmentIds { get; set; }
+
+		public int[] StudentIds { get; set; }
 	}
 }

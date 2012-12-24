@@ -60,7 +60,8 @@
         <a {{action displayList href=true}}>Back to List</a>
     </div>
     <h3>{{subject}}, Period {{period}}</h3>
-    {{outlet}}
+    {{outlet assignments}}
+    {{outlet students}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="assignments">
@@ -88,4 +89,13 @@
         <a {{action cancel target="controller"}} class="btn">Cancel</a>
         <a {{action saveAssignment}} class="btn btn-primary">Save changes</a>
     </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="students">
+    <h4>Students</h4>
+    <ul>
+    {{#each content}}
+        <li>{{name}}</li>
+    {{/each}}
+    </ul>
 </script>

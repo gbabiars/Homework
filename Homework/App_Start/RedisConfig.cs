@@ -27,11 +27,11 @@ namespace Homework
 
 				var coursesStore = redis.As<Course>();
 				var courses = new List<Course> {
-					new Course {Id = 1, Period = 1, TeacherId = 1, Subject = "Math", AssignmentIds = new int[] {1}},
+					new Course {Id = 1, Period = 1, TeacherId = 1, Subject = "Math", AssignmentIds = new int[] {1}, StudentIds = new int[] {1, 2}},
 					new Course {Id = 2, Period = 2, TeacherId = 1, Subject = "Advanced Math", AssignmentIds = new int[] {2, 3}},
 					new Course {Id = 3, Period = 3, TeacherId = 1, Subject = "Math"},
-					new Course {Id = 4, Period = 4, TeacherId = 1, Subject = "Science", AssignmentIds = new int[] {4}},
-					new Course {Id = 5, Period = 5, TeacherId = 1, Subject = "Science"},
+					new Course {Id = 4, Period = 4, TeacherId = 1, Subject = "Science", AssignmentIds = new int[] {4}, StudentIds = new int[] {1}},
+					new Course {Id = 5, Period = 5, TeacherId = 1, Subject = "Science", StudentIds = new int[] {2}},
 					new Course {Id = 6, Period = 6, TeacherId = 1, Subject = "Math"},
 					new Course {Id = 7, Period = 1, TeacherId = 2, Subject = "History"}
 				};
@@ -40,6 +40,13 @@ namespace Homework
 				var teachersStore = redis.As<Teacher>();
 				var teacher = new Teacher { Id = 1, Name = "Jane Doe", CourseIds = new int[] { 1, 2, 3, 4, 5, 6 } };
 				teachersStore.Store(teacher);
+
+				var studentsStore = redis.As<Student>();
+				var students = new List<Student> {
+					new Student {Id = 1, Name = "Bill Clinton", Grade = 8, CourseIds = new int[] {1, 4}},
+					new Student {Id = 2, Name = "George Bush", Grade = 8, CourseIds = new int[] {1, 5}}
+				};
+				studentsStore.StoreAll(students);
 			}
 		}
 	}

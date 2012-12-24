@@ -125,8 +125,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\RedisApiControllerBase.cs" />
     <Compile Include="Api\AssignmentsController.cs" />
     <Compile Include="Api\CoursesController.cs" />
+    <Compile Include="Api\StudentsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RedisConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="HtmlHelpers\ToJsonHtmlHelper.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -204,9 +207,11 @@
     <Content Include="js\app\controllers\assignments-controller.js" />
     <Content Include="js\app\controllers\courses-controller.js" />
     <Content Include="js\app\controllers\course-details-controller.js" />
+    <Content Include="js\app\controllers\students-controller.js" />
     <Content Include="js\app\controllers\teacher-controller.js" />
     <Content Include="js\app\models\assignment.js" />
     <Content Include="js\app\models\course.js" />
+    <Content Include="js\app\models\student.js" />
     <Content Include="js\app\models\teacher.js" />
     <Content Include="js\app\routes\router.js" />
     <Content Include="js\app\store\store.js" />
@@ -216,6 +221,7 @@
     <Content Include="js\app\views\course-details-view.js" />
     <Content Include="js\app\views\courses-view.js" />
     <Content Include="js\app\views\date-field.js" />
+    <Content Include="js\app\views\students-view.js" />
     <Content Include="js\app\views\teacher-view.js" />
     <Content Include="js\vendor\bootstrap.js" />
     <Content Include="js\vendor\bootstrap.min.js" />
