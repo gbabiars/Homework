@@ -28,12 +28,35 @@ namespace Homework.Api
 				};
 			}
 		}
+
+		public object Put(CoursesRequest request) {
+			using (var redis = GetRedisClient())
+			{
+				var coursesStore = redis.As<Course>();
+				var studentsStore = redis.As<Student>();
+
+				var course = coursesStore.GetById(request.Id);
+				var student = studentsStore.GetById(request.StudentId);
+
+				var studentIds = course.StudentIds.ToList();
+				studentIds.Add(student.Id);
+				course.StudentIds = studentIds.ToArray();
+				coursesStore.Store(course);
+
+				var courseIds = student.CourseIds.ToList();
+				courseIds.Add(course.Id);
+				student.CourseIds = courseIds.ToArray();
+				studentsStore.Store(student);
+			}
+			return new HttpResponseMessage(HttpStatusCode.OK);
+		}
     }
 
 	public class CoursesRequest
 	{
 		public int Id { get; set; }
 		public int TeacherId { get; set; }
+		public int StudentId { get; set; }
 	}
 
 	public class CoursesResponse

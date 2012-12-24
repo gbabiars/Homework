@@ -4,22 +4,7 @@
 	displayList: Em.Route.transitionTo('root.index.list'),
 
 	displayCourse: Em.Route.transitionTo('root.index.course'),
-	
-	addAssignmentDialog: function (router, event) {
-		var courseId = parseInt(router.get('courseDetailsController.id'));
-		var assignmentDialogController = router.get('assignmentDialogController');
-		assignmentDialogController.set('content', App.Assignment.createRecord({ title: '', courseId: courseId }));
-		assignmentDialogController.set('dialogTitle', 'Create Assignment');
-		assignmentDialogController.set('isOpen', true);
-	},
-	
-	editAssignmentDialog: function(router, event) {
-		var assignmentDialogController = router.get('assignmentDialogController');
-		assignmentDialogController.set('content', event.context);
-		assignmentDialogController.set('dialogTitle', 'Edit Assignment');
-		assignmentDialogController.set('isOpen', true);
-	},
-	
+			
 	saveAssignment: function(router, event) {
 		var assignmentDialogController = router.get('assignmentDialogController');
 		assignmentDialogController.set('isOpen', false);
@@ -30,13 +15,28 @@
 		App.store.commit();
 	},
 	
+	addStudentToCourse: function (router, event) {
+		var self = this;
+		var studentDialogController = router.get('studentDialogController');
+		studentDialogController.set('isOpen', false);
+		var course = router.get('courseDetailsController.content');
+		App.store.addStudentToCourse({
+			student: studentDialogController.get('selected'),
+			course: course,
+			callback: function() {
+				router.get('studentsController').set('content', App.store.findQuery(App.Student, { courseId: course.get('id') }));
+			}
+		});
+	},
+	
 	root: Em.Route.extend({
 		index: Em.Route.extend({
 			route: '/',
 			connectOutlets: function (router, context) {
 				var teacher = App.Teacher.create({ id: App.metadata.id, name: App.metadata.name });
 				router.get('applicationController').connectOutlet('teacher', teacher);
-				router.get('assignmentsController').connectControllers('assignmentDialog');
+				router.get('assignmentsController').connectControllers('assignmentDialog', 'courseDetails');
+				router.get('studentsController').connectControllers('studentDialog', 'courseDetails');
 			},
 			
 			list: Em.Route.extend({
@@ -61,7 +61,10 @@
 						outletName: 'students',
 						name: 'students',
 						context: App.store.findQuery(App.Student, { courseId: context.get('id') })
-					})
+					});
+					//router.get('studentsController').connectControllers('addStudents');
+					//router.get('studentDialogController').set('content',
+					//	App.store.findQuery(App.Student, { courseId: context.get('id'), inverted: true }));
 				},
 				serialize: function (router, context) {
 					return { id: context.get('id') };

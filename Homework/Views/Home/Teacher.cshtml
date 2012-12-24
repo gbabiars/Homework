@@ -66,10 +66,10 @@
 
 <script type="text/x-handlebars" data-template-name="assignments">
     <h4>Assignments</h4>
-    <a href="#" {{action addAssignmentDialog}}>Add Assignment</a>
+    <a class="btn" href="#"{{action addAssignmentDialog target="controller"}}><i class="icon-plus"></i> Add Assignment</a>
     <ul>
     {{#each content}}
-        <li><a href="#" {{action editAssignmentDialog this}}>{{title}} - Due: {{dueDate}}</a></li>
+        <li><a href="#" {{action editAssignmentDialog this target="controller"}}>{{title}} - Due: {{dueDate}}</a></li>
     {{/each}}
     </ul>
     
@@ -93,9 +93,36 @@
 
 <script type="text/x-handlebars" data-template-name="students">
     <h4>Students</h4>
-    <ul>
-    {{#each content}}
-        <li>{{name}}</li>
-    {{/each}}
-    </ul>
+    <a href="#" class="btn" {{action openStudentDialog target="controller"}}><i class="icon-plus"></i> Add Student</a>
+    {{#if content.length}}
+        <ul>
+        {{#each content}}
+            <li>{{name}}</li>
+        {{/each}}
+        </ul>
+    {{else}}
+        <div>
+            There are no students in this class.
+        </div>
+    {{/if}}
+
+    {{view App.StudentDialogView controllerBinding="studentDialogController"}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="student-dialog">
+    <div class="modal-header">
+        <button {{action addStudent}} type="button" class="close" aria-hidden="true">&times;</button>
+        <h3>Add Student</h3>
+    </div>
+    <div class="modal-body">
+        <label>Student</label>
+        {{view Ember.Select contentBinding="content" 
+            optionValuePath="content.id" 
+            optionLabelPath="content.name" 
+            selectionBinding="selected"}}
+    </div>
+    <div class="modal-footer">
+        <a {{action cancel target="controller"}} class="btn">Cancel</a>
+        <a {{action addStudentToCourse}} class="btn btn-primary">Add to course</a>
+    </div>
 </script>

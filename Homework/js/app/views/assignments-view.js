@@ -1,3 +1,4 @@
 ﻿App.AssignmentsView = Em.View.extend({
-	templateName: 'assignments'
+	templateName: 'assignments',
+	classNames: ['list-container']
 })

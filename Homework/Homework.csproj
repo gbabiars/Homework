@@ -202,6 +202,7 @@
     <Content Include="css\images\KendoUI.woff" />
     <None Include="js\vendor\jquery-1.8.3.intellisense.js" />
     <Content Include="js\app\app.js" />
+    <Content Include="js\app\controllers\student-dialog-controller.js" />
     <Content Include="js\app\controllers\application-controller.js" />
     <Content Include="js\app\controllers\assignment-dialog-controller.js" />
     <Content Include="js\app\controllers\assignments-controller.js" />
@@ -221,6 +222,7 @@
     <Content Include="js\app\views\course-details-view.js" />
     <Content Include="js\app\views\courses-view.js" />
     <Content Include="js\app\views\date-field.js" />
+    <Content Include="js\app\views\student-dialog-view.js" />
     <Content Include="js\app\views\students-view.js" />
     <Content Include="js\app\views\teacher-view.js" />
     <Content Include="js\vendor\bootstrap.js" />

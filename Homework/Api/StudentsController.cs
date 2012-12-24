@@ -13,19 +13,22 @@ namespace Homework.Api
     {
 		public object Get([FromUri] StudentsRequest request) {
 			using (var redis = GetRedisClient()) {
-				if (request.Id != 0)
-				{
+				if (request.Id != 0) {
 					var student = redis.As<Student>().GetById(request.Id);
 					return new StudentResponse {
 						Student = new StudentResponseItem(student)
 					};
+				} else {
+					var course = redis.As<Course>().GetById(request.CourseId);
+					var students = !request.Inverted
+						               ? redis.As<Student>().GetByIds(course.StudentIds)
+						                      .OrderBy(x => x.Name).ToList()
+						               : redis.As<Student>().GetAll().Where(x => !course.StudentIds.Contains(x.Id))
+						                      .OrderBy(x => x.Name).ToList();
+					return new StudentsResponse {
+						Students = students.Select(x => new StudentResponseItem(x)).ToList()
+					};
 				}
-				var course = redis.As<Course>().GetById(request.CourseId);
-				var students = redis.As<Student>().GetByIds(course.StudentIds)
-					.OrderBy(x => x.Name).ToList();
-				return new StudentsResponse {
-					Students = students.Select(x => new StudentResponseItem(x)).ToList()
-				};
 			}
 		}
 	}
@@ -35,6 +38,8 @@ namespace Homework.Api
 		public int Id { get; set; }
 
 		public int CourseId { get; set; }
+
+		public bool Inverted { get; set; }
 	}
 
 	public class StudentsResponse
