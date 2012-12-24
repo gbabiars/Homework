@@ -15,7 +15,7 @@ namespace Homework.Api
 	    private readonly string connectionString = ConfigurationManager.AppSettings["REDISTOGO_URL"];
 
 		public object Get([FromUri] AssignmentsRequest request) {
-			using (var redis = new RedisClient(connectionString))
+			using (var redis = GetRedisClient())
 			{
 				if (request.Id != 0)
 				{
@@ -39,7 +39,7 @@ namespace Homework.Api
 		}
 
 		public object Post(AssignmentsRequest request) {
-			using (var redis = new RedisClient(connectionString))
+			using (var redis = GetRedisClient())
 			{
 				var assignmentsClient = redis.As<Assignment>();
 				var coursesClient = redis.As<Course>();
@@ -61,7 +61,7 @@ namespace Homework.Api
 		}
 
 		public object Put(int id, AssignmentsRequest request) {
-			using (var redis = new RedisClient(connectionString))
+			using (var redis = GetRedisClient())
 			{
 				var assignmentsClient = redis.As<Assignment>();
 				var assignment = assignmentsClient.GetById(id);
@@ -70,6 +70,10 @@ namespace Homework.Api
 				assignmentsClient.Store(assignment);
 			}
 			return new HttpResponseMessage(HttpStatusCode.OK);
+		}
+
+		private RedisClient GetRedisClient() {
+			return new RedisClient(new Uri(connectionString));
 		}
     }
 

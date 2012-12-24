@@ -15,7 +15,7 @@ namespace Homework.Api
 		private readonly string connectionString = ConfigurationManager.AppSettings["REDISTOGO_URL"];
 
 		public object Get([FromUri] CoursesRequest request) {
-			using (var redis = new RedisClient(connectionString))
+			using (var redis = GetRedisClient())
 			{
 				var coursesStore = redis.As<Course>();
 				if (request.Id != 0)
@@ -29,6 +29,10 @@ namespace Homework.Api
 						.OrderBy(x => x.Period).ToList()
 				};
 			}
+		}
+
+		private RedisClient GetRedisClient() {
+			return new RedisClient(new Uri(connectionString));
 		}
     }
 

@@ -11,7 +11,8 @@ namespace Homework
 	public static class RedisConfig
 	{
 		public static void Init() {
-			using (var redis = new RedisClient(ConfigurationManager.AppSettings["REDISTOGO_URL"]))
+			var uri = new Uri(ConfigurationManager.AppSettings["REDISTOGO_URL"]);
+			using (var redis = new RedisClient(uri))
 			{
 				redis.FlushAll();
 
