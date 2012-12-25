@@ -67,9 +67,18 @@
 <script type="text/x-handlebars" data-template-name="assignments">
     <h4>Assignments</h4>
     <a class="btn" href="#"{{action addAssignmentDialog target="controller"}}><i class="icon-plus"></i> Add Assignment</a>
-    <ul>
+    <ul class="assignments">
     {{#each content}}
-        <li><a href="#" {{action editAssignmentDialog this target="controller"}}>{{title}} - Due: {{dueDate}}</a></li>
+        <li class="clearfix">
+            <div class="pull-left">
+                <div>{{title}}</div>
+                <div>Due: {{dueDate}}</div>
+            </div>
+            <div class="pull-right">
+                <a href="#" class="btn" {{action editAssignmentDialog this target="controller"}}>Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </li>
     {{/each}}
     </ul>
     
@@ -95,9 +104,16 @@
     <h4>Students</h4>
     <a href="#" class="btn" {{action openStudentDialog target="controller"}}><i class="icon-plus"></i> Add Student</a>
     {{#if content.length}}
-        <ul>
+        <ul class="students">
         {{#each content}}
-            <li>{{name}}</li>
+            <li class="clearfix">
+                <div class="pull-left">
+                    {{name}}
+                </div>
+                <div class="pull-right">
+                    <a href="#" {{action removeStudentFromCourse this}} class="btn btn-danger">Remove</a>
+                </div>
+            </li>
         {{/each}}
         </ul>
     {{else}}

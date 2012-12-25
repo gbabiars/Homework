@@ -12,7 +12,18 @@
 		$.ajax({
 			type: 'PUT',
 			url: this.adapter.buildURL(root),
-			data: { id: options.course.get('id'), studentId: options.student.get('id') },
+			data: { changeType: 'add', id: options.course.get('id'), studentId: options.student.get('id') },
+			success: options.callback
+		});
+	},
+	
+	removeStudentFromCourse: function (options) {
+		var root = this.adapter.rootForType(App.Course);
+
+		$.ajax({
+			type: 'PUT',
+			url: this.adapter.buildURL(root),
+			data: { changeType: 'remove', id: options.course.get('id'), studentId: options.student.get('id') },
 			success: options.callback
 		});
 	}

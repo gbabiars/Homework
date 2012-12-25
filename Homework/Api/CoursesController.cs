@@ -39,12 +39,21 @@ namespace Homework.Api
 				var student = studentsStore.GetById(request.StudentId);
 
 				var studentIds = course.StudentIds.ToList();
-				studentIds.Add(student.Id);
+				var courseIds = student.CourseIds.ToList();
+
+				if (request.ChangeType == "add") {
+					studentIds.Add(student.Id);
+
+					courseIds.Add(course.Id);
+				}
+				if (request.ChangeType == "remove") {
+					studentIds.Remove(student.Id);
+
+					courseIds.Remove(course.Id);
+				}
 				course.StudentIds = studentIds.ToArray();
 				coursesStore.Store(course);
 
-				var courseIds = student.CourseIds.ToList();
-				courseIds.Add(course.Id);
 				student.CourseIds = courseIds.ToArray();
 				studentsStore.Store(student);
 			}
@@ -57,6 +66,7 @@ namespace Homework.Api
 		public int Id { get; set; }
 		public int TeacherId { get; set; }
 		public int StudentId { get; set; }
+		public string ChangeType { get; set; }
 	}
 
 	public class CoursesResponse
