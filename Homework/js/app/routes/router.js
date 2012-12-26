@@ -24,24 +24,20 @@
 	addStudentToCourse: function (router, event) {
 		var studentDialogController = router.get('studentDialogController');
 		studentDialogController.set('isOpen', false);
+		var student = studentDialogController.get('selected');
 		var course = router.get('courseDetailsController.content');
 		App.store.addStudentToCourse({
-			student: studentDialogController.get('selected'),
-			course: course,
-			callback: function() {
-				router.get('studentsController').set('content', App.store.findQuery(App.Student, { courseId: course.get('id') }));
-			}
+			student: student,
+			course: course
 		});
+		router.get('studentsController.students').addObject(student);
 	},
 	
 	removeStudentFromCourse: function(router, event) {
 		var course = router.get('courseDetailsController.content');
 		App.store.removeStudentFromCourse({
 			student: event.context,
-			course: course,
-			callback: function() {
-				router.get('studentsController').set('content', App.store.findQuery(App.Student, { courseId: course.get('id') }));
-			}
+			course: course
 		});
 	},
 	

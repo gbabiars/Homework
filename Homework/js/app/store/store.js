@@ -12,8 +12,7 @@
 		$.ajax({
 			type: 'PUT',
 			url: this.adapter.buildURL(root),
-			data: { changeType: 'add', id: options.course.get('id'), studentId: options.student.get('id') },
-			success: options.callback
+			data: { changeType: 'add', id: options.course.get('id'), studentId: options.student.get('id') }
 		});
 	},
 	
@@ -23,8 +22,7 @@
 		$.ajax({
 			type: 'PUT',
 			url: this.adapter.buildURL(root),
-			data: { changeType: 'remove', id: options.course.get('id'), studentId: options.student.get('id') },
-			success: options.callback
+			data: { changeType: 'remove', id: options.course.get('id'), studentId: options.student.get('id') }
 		});
 	}
 });

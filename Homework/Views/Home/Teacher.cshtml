@@ -103,15 +103,15 @@
 <script type="text/x-handlebars" data-template-name="students">
     <h4>Students</h4>
     <a href="#" class="btn" {{action openStudentDialog target="controller"}}><i class="icon-plus"></i> Add Student</a>
-    {{#if content.length}}
+    {{#if students.length}}
         <ul class="students">
-        {{#each content}}
+        {{#each students}}
             <li class="clearfix">
                 <div class="pull-left">
                     {{name}}
                 </div>
                 <div class="pull-right">
-                    <a href="#" {{action removeStudentFromCourse this}} class="btn btn-danger">Remove</a>
+                    <a href="#" {{action removeStudentFromCourse this target="controller"}} class="btn btn-danger">Remove</a>
                 </div>
             </li>
         {{/each}}
