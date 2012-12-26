@@ -8,11 +8,18 @@
 	saveAssignment: function(router, event) {
 		var assignmentDialogController = router.get('assignmentDialogController');
 		assignmentDialogController.set('isOpen', false);
-		assignmentDialogController.get('content').on('didCreate', function() {
+		var assignment = assignmentDialogController.get('content');
+		assignment.on('didCreate', function() {
 			var course = router.get('courseDetailsController.content');
 			router.get('assignmentsController').set('content', App.store.findQuery(App.Assignment, { courseId: course.get('id') }));
 		});
-		App.store.commit();
+		assignment.transaction.commit();
+	},
+	
+	deleteAssignment: function (router, event) {
+		var assignment = event.context;
+		App.store.deleteRecord(assignment);
+		assignment.transaction.commit();
 	},
 	
 	addStudentToCourse: function (router, event) {
@@ -72,9 +79,6 @@
 						name: 'students',
 						context: App.store.findQuery(App.Student, { courseId: context.get('id') })
 					});
-					//router.get('studentsController').connectControllers('addStudents');
-					//router.get('studentDialogController').set('content',
-					//	App.store.findQuery(App.Student, { courseId: context.get('id'), inverted: true }));
 				},
 				serialize: function (router, context) {
 					return { id: context.get('id') };

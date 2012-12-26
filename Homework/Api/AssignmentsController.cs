@@ -46,7 +46,6 @@ namespace Homework.Api
 				course.AssignmentIds = assignmentIds.ToArray();
 				coursesClient.Store(course);
 
-				assignmentsClient.GetNextSequence();
 				assignmentsClient.Store(assignment);
 
 				return new AssignmentResponse { Assignment = new AssignmentResponseItem(assignment) };
@@ -61,6 +60,23 @@ namespace Homework.Api
 				assignment.Title = request.Assignment.Title;
 				assignment.DueDate = request.Assignment.DueDate;
 				assignmentsClient.Store(assignment);
+			}
+			return new HttpResponseMessage(HttpStatusCode.OK);
+		}
+
+		public object Delete(int id) {
+			using (var redis = GetRedisClient())
+			{
+				var assignmentsClient = redis.As<Assignment>();
+				var coursesClient = redis.As<Course>();
+
+				var assignment = assignmentsClient.GetById(id);
+
+				var course = redis.As<Course>().GetById(assignment.CourseId);
+				var assignmentIds = course.AssignmentIds.ToList();
+				assignmentIds.Remove(id);
+				course.AssignmentIds = assignmentIds.ToArray();
+				coursesClient.Store(course);
 			}
 			return new HttpResponseMessage(HttpStatusCode.OK);
 		}

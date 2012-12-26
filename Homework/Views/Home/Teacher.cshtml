@@ -68,7 +68,7 @@
     <h4>Assignments</h4>
     <a class="btn" href="#"{{action addAssignmentDialog target="controller"}}><i class="icon-plus"></i> Add Assignment</a>
     <ul class="assignments">
-    {{#each content}}
+    {{#each notDeleted}}
         <li class="clearfix">
             <div class="pull-left">
                 <div>{{title}}</div>
@@ -76,7 +76,7 @@
             </div>
             <div class="pull-right">
                 <a href="#" class="btn" {{action editAssignmentDialog this target="controller"}}>Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a href="#" class="btn btn-danger" {{action deleteAssignment this}}>Delete</a>
             </div>
         </li>
     {{/each}}
