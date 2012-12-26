@@ -68,7 +68,7 @@
     <h4>Assignments</h4>
     <a class="btn" href="#"{{action addAssignmentDialog target="controller"}}><i class="icon-plus"></i> Add Assignment</a>
     <ul class="assignments">
-    {{#each notDeleted}}
+    {{#each assignments}}
         <li class="clearfix">
             <div class="pull-left">
                 <div>{{title}}</div>
@@ -76,7 +76,7 @@
             </div>
             <div class="pull-right">
                 <a href="#" class="btn" {{action editAssignmentDialog this target="controller"}}>Edit</a>
-                <a href="#" class="btn btn-danger" {{action deleteAssignment this}}>Delete</a>
+                <a href="#" class="btn btn-danger" {{action deleteAssignment this target="controller"}}>Delete</a>
             </div>
         </li>
     {{/each}}
@@ -87,7 +87,7 @@
 
 <script type="text/x-handlebars" data-template-name="assignment-dialog">
     <div class="modal-header">
-        <button {{action saveAssignment}} type="button" class="close" aria-hidden="true">&times;</button>
+        <button {{action cancel target="controller"}} type="button" class="close" aria-hidden="true">&times;</button>
         <h3>{{dialogTitle}}</h3>
     </div>
     <div class="modal-body">

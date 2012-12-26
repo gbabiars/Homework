@@ -1,12 +1,8 @@
 ﻿App.AssignmentsController = Em.ArrayController.extend({
 	content: [],
 	
-	notDeleted: function() {
-		return this.filter(function (assignment) {
-			return !assignment.get('isDeleted');
-		}, this.get('content'));
-	}.property('content.@each.isDeleted'),
-
+	assignments: Em.A([]),
+		
 	addAssignmentDialog: function (event) {
 		var courseId = parseInt(this.get('courseDetailsController.id'));
 		var assignmentDialogController = this.get('assignmentDialogController');
@@ -21,4 +17,24 @@
 		assignmentDialogController.set('dialogTitle', 'Edit Assignment');
 		assignmentDialogController.set('isOpen', true);
 	},
+	
+	deleteAssignment: function(event) {
+		this.get('assignments').removeObject(event.context);
+	},
+		
+	contentLoaded: function () {
+		if (this.get('content.isLoaded')) {
+			this.set('assignments', this.get('content').toArray());
+			var arrayObserver = Em.Object.create({
+				arrayWillChange: function (array, start, removeCount, addCount) {
+					if (removeCount > 0) {
+						var assignmentToRemove = array[start];
+						App.router.send('deleteAssignment', { context: assignmentToRemove });
+					}
+				},
+				arrayDidChange: function (array, start, removeCount, addCount) { }
+			});
+			this.get('assignments').addArrayObserver(arrayObserver);
+		}
+	}.observes('content.isLoaded')
 })

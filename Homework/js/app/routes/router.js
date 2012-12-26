@@ -5,14 +5,13 @@
 
 	displayCourse: Em.Route.transitionTo('root.index.course'),
 			
-	saveAssignment: function(router, event) {
+	saveAssignment: function (router, event) {
 		var assignmentDialogController = router.get('assignmentDialogController');
 		assignmentDialogController.set('isOpen', false);
 		var assignment = assignmentDialogController.get('content');
-		assignment.on('didCreate', function() {
-			var course = router.get('courseDetailsController.content');
-			router.get('assignmentsController').set('content', App.store.findQuery(App.Assignment, { courseId: course.get('id') }));
-		});
+		if (!assignment.get('id')) {
+			this.get('assignmentsController.assignments').insertAt(0, assignment);
+		}
 		assignment.transaction.commit();
 	},
 	
