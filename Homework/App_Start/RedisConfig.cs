@@ -43,8 +43,12 @@ namespace Homework
 
 				var studentsStore = redis.As<Student>();
 				var students = new List<Student> {
-					new Student {Id = 1, Name = "Bill Clinton", Grade = 8, CourseIds = new int[] {1, 4}},
-					new Student {Id = 2, Name = "George Bush", Grade = 8, CourseIds = new int[] {1, 5}}
+					new Student {Id = 1, FirstName = "Bill", LastName = "Clinton", Grade = 8, CourseIds = new int[] {1, 4}},
+					new Student {Id = 2, FirstName = "George", LastName = "Bush", Grade = 8, CourseIds = new int[] {1, 5}},
+					new Student {Id = 3, FirstName = "Abraham", LastName = "Lincoln", Grade = 8, CourseIds = new int[0]},
+					new Student {Id = 4, FirstName = "George", LastName = "Washington", Grade = 8, CourseIds = new int[0]},
+					new Student {Id = 5, FirstName = "John", LastName = "Adams", Grade = 8, CourseIds = new int[0]},
+					new Student {Id = 6, FirstName = "Barack", LastName = "Obama", Grade = 8, CourseIds = new int[0]}
 				};
 				studentsStore.StoreAll(students);
 			}

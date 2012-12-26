@@ -21,10 +21,8 @@ namespace Homework.Api
 				} else {
 					var course = redis.As<Course>().GetById(request.CourseId);
 					var students = !request.Inverted
-						               ? redis.As<Student>().GetByIds(course.StudentIds)
-						                      .OrderBy(x => x.Name).ToList()
-						               : redis.As<Student>().GetAll().Where(x => !course.StudentIds.Contains(x.Id))
-						                      .OrderBy(x => x.Name).ToList();
+						               ? redis.As<Student>().GetByIds(course.StudentIds).ToList()
+						               : redis.As<Student>().GetAll().Where(x => !course.StudentIds.Contains(x.Id)).ToList();
 					return new StudentsResponse {
 						Students = students.Select(x => new StudentResponseItem(x)).ToList()
 					};
@@ -58,13 +56,16 @@ namespace Homework.Api
 
 		public StudentResponseItem(Student student) {
 			Id = student.Id;
-			Name = student.Name;
+			FirstName = student.FirstName;
+			LastName = student.LastName;
 			Grade = student.Grade;
 		}
 
 		public int Id { get; set; }
 
-		public string Name { get; set; }
+		public string FirstName { get; set; }
+
+		public string LastName { get; set; }
 
 		public int Grade { get; set; }
 	}

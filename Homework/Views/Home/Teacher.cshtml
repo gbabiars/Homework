@@ -105,7 +105,7 @@
     <a href="#" class="btn" {{action openStudentDialog target="controller"}}><i class="icon-plus"></i> Add Student</a>
     {{#if students.length}}
         <ul class="students">
-        {{#each students}}
+        {{#each sortedStudents}}
             <li class="clearfix">
                 <div class="pull-left">
                     {{name}}

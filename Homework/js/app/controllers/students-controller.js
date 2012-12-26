@@ -3,6 +3,13 @@
 	
 	students: Em.A([]),
 	
+	sortedStudents: function() {
+		var studentsSortedByLastName = _.sortBy(this.get('students'), function(s) {
+			return s.get('lastName');
+		});
+		return studentsSortedByLastName;
+	}.property('students', 'students.@each'),
+	
 	openStudentDialog: function () {
 		var courseId = parseInt(this.get('courseDetailsController.id'));
 		var studentDialogController = this.get('studentDialogController');
