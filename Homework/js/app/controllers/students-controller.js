@@ -8,7 +8,7 @@
 			return s.get('lastName');
 		});
 		return studentsSortedByLastName;
-	}.property('students', 'students.@each'),
+	}.property('students', 'students.@each.lastName'),
 	
 	openStudentDialog: function () {
 		var courseId = parseInt(this.get('courseDetailsController.id'));

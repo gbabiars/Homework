@@ -2,6 +2,13 @@
 	content: [],
 	
 	assignments: Em.A([]),
+	
+	sortedAssignments: function() {
+		var assignemntsSortedByDueDate = _.sortBy(this.get('assignments'), function(a) {
+			return moment(a.get('dueDate')).toDate();
+		});
+		return assignemntsSortedByDueDate;
+	}.property('assignments', 'assignments.@each.dueDate'),
 		
 	addAssignmentDialog: function (event) {
 		var courseId = parseInt(this.get('courseDetailsController.id'));
