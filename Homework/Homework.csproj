@@ -215,6 +215,7 @@
     <Content Include="js\app\student\views\application-view.js" />
     <Content Include="js\app\student\views\assignments-view.js" />
     <Content Include="js\app\student\views\courses-view.js" />
+    <Content Include="js\app\student\views\list-filters-view.js" />
     <Content Include="js\app\student\views\student-view.js" />
     <Content Include="js\app\teacher\app.js" />
     <Content Include="js\app\teacher\controllers\student-dialog-controller.js" />

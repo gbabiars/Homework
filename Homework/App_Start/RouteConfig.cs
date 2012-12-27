@@ -13,8 +13,20 @@ namespace Homework
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: null,
+				url: "teacher",
+				defaults: new { controller = "Home", action = "Teacher", id = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
+				name: null,
+				url: "student",
+				defaults: new { controller = "Home", action = "Student", id = UrlParameter.Optional }
+			);
+
+			routes.MapRoute(
 				name: "Default",
-				url: "{controller}/{action}/{id}",
+				url: "{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
 			);
 		}
