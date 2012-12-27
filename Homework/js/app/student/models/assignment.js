@@ -13,5 +13,13 @@
 		if (dueDateDaysToEndOfWeek < 7 && dueDateDaysToEndOfWeek >= 0)
 			return true;
 		return false;
+	}.property('dueDate'),
+	
+	isPastDue: function() {
+		var dueDateAsDate = moment(this.get('dueDate'));
+		var today = moment();
+		var daysUntilDue = dueDateAsDate.diff(today, 'days');
+		var isPastDue = daysUntilDue < 0;
+		return isPastDue;
 	}.property('dueDate')
 })

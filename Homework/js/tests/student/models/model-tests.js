@@ -25,7 +25,6 @@ module('Assignment');
 
 test('isDueThisWeek for today should return true', function() {
 	var today = moment();
-
 	var assignment = App.Assignment.createRecord({ dueDate: today.format('M/D/YYYY') });
 
 	var isDueThisWeek = assignment.get('isDueThisWeek');
@@ -35,7 +34,6 @@ test('isDueThisWeek for today should return true', function() {
 
 test('isDueThisWeek for 8 days from today should return false', function() {
 	var nextWeek = moment().add('days', 8);
-	
 	var assignment = App.Assignment.createRecord({ dueDate: nextWeek.format('M/D/YYYY') });
 
 	var isDueThisWeek = assignment.get('isDueThisWeek');
@@ -45,10 +43,27 @@ test('isDueThisWeek for 8 days from today should return false', function() {
 
 test('isDueThisWeek for 8 days before today should return false', function () {
 	var lastWeek = moment().add('days', -8);
-
 	var assignment = App.Assignment.createRecord({ dueDate: lastWeek.format('M/D/YYYY') });
 
 	var isDueThisWeek = assignment.get('isDueThisWeek');
 
 	ok(!isDueThisWeek);
 });
+
+test('isPastDue should be true when the due date is yesterday', function() {
+	var yesterday = moment().add('days', -1);
+	var assignment = App.Assignment.createRecord({ dueDate: yesterday.format('M/D/YYYY') });
+
+	var isPastDue = assignment.get('isPastDue');
+
+	ok(isPastDue);
+});
+
+test('isPastDue should be false when the due date is tomorrow', function () {
+	var tomorrow = moment().add('days', 1);
+	var assignment = App.Assignment.createRecord({ dueDate: tomorrow.format('M/D/YYYY') });
+
+	var isPastDue = assignment.get('isPastDue');
+
+	ok(!isPastDue);
+})

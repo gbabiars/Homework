@@ -14,18 +14,28 @@
 	setFilterToWeek: function () {
 		this.set('filter', 'week');
 	},
+	
+	setFilterToPastDue: function() {
+		this.set('filter', 'pastDue');
+	},
 
 	aggregatedAssignments: function () {
 		var courses = this.get('coursesController.content').toArray();
 		var assignments = [];
-		if(this.get('filter') === 'course') {
+		var filter = this.get('filter');
+		if(filter === 'course') {
 			assignments = this.get('coursesController.selected')
 				? this.get('content').filterProperty('courseId', parseInt(this.get('coursesController.selected')))
 				: this.get('content');
 		}
-		if (this.get('filter') === "week") {
+		if (filter === "week") {
 			assignments = this.get('content').filter(function (a) {
 				return a.get('isDueThisWeek');
+			});
+		}
+		if (filter === "pastDue") {
+			assignments = this.get('content').filter(function (a) {
+				return a.get('isPastDue');
 			});
 		}
 		var aggregatedAssignments = this.aggregateAssignments(assignments, courses);
