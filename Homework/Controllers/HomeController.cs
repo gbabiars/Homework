@@ -18,11 +18,17 @@ namespace Homework.Controllers
         }
 
 		public ViewResult Teacher() {
-			Teacher teacher;
 			using (var redis = new RedisClient(new Uri(connectionString))) {
-				teacher = redis.As<Teacher>().GetAll().FirstOrDefault();
+				var teacher = redis.As<Teacher>().GetAll().FirstOrDefault();
+				return View(teacher);
 			}
-			return View(teacher);
+		}
+
+		public ViewResult Student() {
+			using (var redis = new RedisClient(new Uri(connectionString))) {
+				var student = redis.As<Student>().GetAll().FirstOrDefault();
+				return View(student);
+			}
 		}
     }
 }

@@ -22,12 +22,27 @@ namespace Homework.Api
 						Assignment = new AssignmentResponseItem(assignment)
 					};
 				}
-				var course = redis.As<Course>().GetById(request.CourseId);
-				var assignments = redis.As<Assignment>().GetByIds(course.AssignmentIds)
-					.OrderBy(x => x.DueDate).ToList();
-				return new AssignmentsResponse {
-					Assignments = assignments.Select(x => new AssignmentResponseItem(x)).ToList()
-				};
+				if (request.StudentId != 0)
+				{
+					var student = redis.As<Student>().GetById(request.StudentId);
+					var courses = redis.As<Course>().GetByIds(student.CourseIds);
+					var assignmentIds = courses.SelectMany(x => x.AssignmentIds).Distinct().ToList();
+					var assignments = redis.GetByIds<Assignment>(assignmentIds)
+										   .OrderBy(x => x.DueDate).ToList();
+					return new AssignmentsResponse {
+						Assignments = assignments.Select(x => new AssignmentResponseItem(x)).ToList()
+					};
+				}
+				if (request.CourseId != 0)
+				{
+					var course = redis.As<Course>().GetById(request.CourseId);
+					var assignments = redis.As<Assignment>().GetByIds(course.AssignmentIds)
+					                       .OrderBy(x => x.DueDate).ToList();
+					return new AssignmentsResponse {
+						Assignments = assignments.Select(x => new AssignmentResponseItem(x)).ToList()
+					};
+				}
+				return null;
 			}
 		}
 
@@ -87,6 +102,8 @@ namespace Homework.Api
 		public int Id { get; set; }
 
 		public int CourseId { get; set; }
+
+		public int StudentId { get; set; }
 
 		public Assignment Assignment { get; set; }
 	}

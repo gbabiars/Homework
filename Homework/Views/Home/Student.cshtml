@@ -1,0 +1,71 @@
+﻿@model Homework.Models.Student
+
+@{
+    ViewBag.Title = "Student";
+}
+
+@section javascript
+{
+    <script src="~/js/app/student/app.js"></script>
+
+    <script src="~/js/app/student/store/store.js"></script>
+
+    @Scripts.Render("~/bundles/student/models")
+    @Scripts.Render("~/bundles/student/controllers")
+    @Scripts.Render("~/bundles/student/views")
+    
+    <script src="~/js/app/student/routes/router.js"></script>
+}
+
+<script type="application/json" id="app-metadata">
+    @Html.ToJson(Model)
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="application">
+    <header class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand">Homework</a>
+                <ul class="nav">
+                </ul>
+                <ul class="nav pull-right">
+                    <li>
+                        <a>Welcome, {{App.router.studentController.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        {{outlet}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="student">
+    {{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="assignments">
+    <h4>Assignments</h4>
+    <div>
+        {{#view controllerBinding="coursesController"}}
+            {{view Ember.Select contentBinding="content" 
+                valueBinding="selected"
+                optionValuePath="content.id"
+                optionLabelPath="content.subject"
+                prompt="All Subjects"}}
+        {{/view}}
+    </div>
+    <ul class="assignments">
+    {{#each aggregatedAssignments}}
+        <li class="clearfix">
+            <div class="pull-left">
+                <div><strong>{{courseSubject}}</strong> {{title}}</div>
+                <div>Due: {{dueDate}}</div>
+            </div>
+        </li>
+    {{/each}}
+    </ul>
+</script>
+

@@ -20,11 +20,20 @@ namespace Homework.Api
 					return new CourseResponse {
 						Course = coursesStore.GetById(request.Id)
 					};
-				var teacher = redis.As<Teacher>().GetById(request.TeacherId);
+				if (request.TeacherId != 0)
+				{
+					var teacher = redis.As<Teacher>().GetById(request.TeacherId);
+					return new CoursesResponse {
+						Courses = coursesStore.GetAll()
+						                      .Where(x => teacher.CourseIds.Contains(x.Id))
+						                      .OrderBy(x => x.Period).ToList()
+					};
+				}
+				var student = redis.As<Student>().GetById(request.StudentId);
 				return new CoursesResponse {
 					Courses = coursesStore.GetAll()
-						.Where(x => teacher.CourseIds.Contains(x.Id))
-						.OrderBy(x => x.Period).ToList()
+										  .Where(x => student.CourseIds.Contains(x.Id))
+										  .OrderBy(x => x.Period).ToList()
 				};
 			}
 		}
