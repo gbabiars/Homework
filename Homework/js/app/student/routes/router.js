@@ -2,8 +2,6 @@
 	enableLogging: true,
 	
 	displayList: Em.Route.transitionTo('root.index.list'),
-
-	displayCourse: Em.Route.transitionTo('root.index.course'),
 	
 	root: Em.Route.extend({
 		index: Em.Route.extend({
@@ -21,7 +19,7 @@
 					router.get('coursesController').set('content',
 						App.store.findQuery(App.Course, { studentId: App.metadata.id }));
 				}
-			}),
+			})
 		}),
 	})
 })

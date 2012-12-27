@@ -48,15 +48,18 @@
 
 <script type="text/x-handlebars" data-template-name="assignments">
     <h4>Assignments</h4>
-    <div>
-        {{#view controllerBinding="coursesController"}}
-            {{view Ember.Select contentBinding="content" 
-                valueBinding="selected"
-                optionValuePath="content.id"
-                optionLabelPath="content.subject"
-                prompt="All Subjects"}}
-        {{/view}}
-    </div>
+    {{view App.ListFiltersView controllerBinding="controller"}}
+    {{#if displayCourses}}
+        <div>
+            {{#view controllerBinding="coursesController"}}
+                {{view Ember.Select contentBinding="content" 
+                    valueBinding="selected"
+                    optionValuePath="content.id"
+                    optionLabelPath="content.subject"
+                    prompt="All Subjects"}}
+            {{/view}}
+        </div>
+    {{/if}}
     <ul class="assignments">
     {{#each aggregatedAssignments}}
         <li class="clearfix">
@@ -69,3 +72,9 @@
     </ul>
 </script>
 
+<script type="text/x-handlebars" data-template-name="list-filters">
+        Filter By: 
+        <a href="#" class="selected" {{action setFilterToCourse target="controller"}}>Course</a> | 
+        <a href="#" {{action setFilterToWeek target="controller"}}>Due this week</a>
+
+</script>

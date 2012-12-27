@@ -24,3 +24,9 @@
   height: 40px;
   padding: 5px;
 }
+a.selected {
+  color: #000;
+}
+a.selected:hover {
+  text-decoration: none;
+}

@@ -146,6 +146,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="css\qunit.css" />
     <Content Include="css\bootstrap-responsive.css" />
     <Content Include="css\bootstrap-responsive.min.css" />
     <Content Include="css\bootstrap.css" />
@@ -209,7 +210,6 @@
     <Content Include="js\app\student\models\assignment.js" />
     <Content Include="js\app\student\models\course.js" />
     <Content Include="js\app\student\models\student.js" />
-    <Content Include="js\app\student\models\teacher.js" />
     <Content Include="js\app\student\routes\router.js" />
     <Content Include="js\app\student\store\store.js" />
     <Content Include="js\app\student\views\application-view.js" />
@@ -240,6 +240,7 @@
     <Content Include="js\app\teacher\views\student-dialog-view.js" />
     <Content Include="js\app\teacher\views\students-view.js" />
     <Content Include="js\app\teacher\views\teacher-view.js" />
+    <Content Include="js\tests\student\models\model-tests.js" />
     <Content Include="js\vendor\bootstrap.js" />
     <Content Include="js\vendor\bootstrap.min.js" />
     <Content Include="js\vendor\ember-1.0.0-pre.2.js" />
@@ -264,6 +265,7 @@
     <Content Include="js\vendor\respond.min.js" />
     <Content Include="js\vendor\underscore.js" />
     <Content Include="js\vendor\underscore.min.js" />
+    <Content Include="js\vendor\qunit.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
